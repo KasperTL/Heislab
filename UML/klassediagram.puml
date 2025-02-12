@@ -1,0 +1,15 @@
+@startuml Heis 
+class Elevator {
+    -floor
+    -direction
+}
+class OrderHandler {
+    -orders
+    +getNextOrder()
+} 
+class Order {
+    -floor 
+    -direction
+}
+Elevator --> Order : "Has a"
+@enduml
