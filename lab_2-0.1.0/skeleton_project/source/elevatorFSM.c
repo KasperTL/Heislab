@@ -13,21 +13,45 @@ void elevatorFSM(Elevator *elevator){
     case IDLE:
         handle_IDLE(elevator);
         break;
-    case MOVING_UP:
-        handle_MOVING_UP(elevator);
+    case MOVING:
+        handle_MOVING(elevator);
         break;
-    case MOVING_DOWN:
-        handle_MOVING_DOWN(elevator);
-        break;
-    case DOOR_OPEN:
-        handle_DOOR_OPEN(elevator);
-        break;
-    case DOOR_CLOSING:
-        handle_DOOR_CLOSING(elevator);
+    case AT_DESTINATION:
+        handle_AT_DESTINATION(elevator);
         break;
     case EMERGENCY: 
         handle_EMERGENCY(elevator);
     default:
         break;
     }
+};
+
+
+void update_destination(Elevator *elevator,int destination_floor)
+{
+    
+};
+
+
+void handle_IDLE(Elevator *elevator)
+{
+    
+};
+
+
+void handle_MOVING(Elevator *elevator)
+{
+
+};
+
+
+void handle_AT_DESTINATION(Elevator *elevator)
+{
+
+};
+
+
+void handle_EMERGENCY(Elevator *elevator)
+{
+
 };

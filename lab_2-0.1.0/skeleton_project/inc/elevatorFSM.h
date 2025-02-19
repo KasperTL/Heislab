@@ -9,10 +9,8 @@
 // Enum for the different states of the elevator
 typedef enum {
     IDLE,
-    MOVING_UP,
-    MOVING_DOWN,
-    DOOR_OPEN,
-    DOOR_CLOSING,
+    MOVING,
+    AT_DESTINATION,
     EMERGENCY
 } Elevator_state_t; 
 
@@ -28,10 +26,8 @@ void update_destination(Elevator *elevator,int destination_floor);
 
 
 void handle_IDLE(Elevator *elevator);
-void handle_MOVING_UP(Elevator *elevator);
-void handle_MOVING_DOWN(Elevator *elevator);
-void handle_DOOR_OPEN(Elevator *elevator);
-void handle_DOOR_CLOSING(Elevator *elevator);
+void handle_MOVING(Elevator *elevator);
+void handle_AT_DESTINATION(Elevator *elevator);
 void handle_EMERGENCY(Elevator *elevator);
 
 

@@ -35,7 +35,7 @@
 //          con_val("greeting", s, "%[^\n]")
 //          con_enum("enumeration", &en, 
 //              con_match(En1)
-//              con_match(En2)
+//              con_matchintsh(En2)
 //              con_match(En3)
 //          )
 //      )
