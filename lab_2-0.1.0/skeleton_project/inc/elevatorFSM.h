@@ -30,8 +30,21 @@ typedef struct {
 
 
 //Function that updates the destination floor (will be used by the order handler)
-void update_destination(Elevator *anElevator,int destination_floor);
+void set_current_state(Elevator *anElevator, Elevator_state_t a_current_state);
+Elevator_state_t get_current_state(Elevator *anElevator);
 
+//updates the destination floor of anElevator to the given int value(must be between 0 and 3)
+void set_destination_floor(Elevator *anElevator,int destination_floor);
+int get_destination_floor(Elevator *anElevator);
+
+void set_current_floor(Elevator *anElevator, int a_current_floor);
+int get_current_floor(Elevator *anElevator);
+
+void set_has_destination(Elevator *anElevator, bool has_a_destination);
+bool get_has_destination(Elevator *anElevator);
+
+void set_start_time(Elevator *anElevator);
+int get_time_difference(Elevator *anElevator);
 
 void handle_IDLE(Elevator *anElevator);
 void handle_MOVING(Elevator *anElevator);
@@ -42,8 +55,4 @@ void handle_EMERGENCY(Elevator *anElevator);
 //The main FSM loop, decides which handle function will run depending on the state of the elevator
 void elevatorFSM(Elevator *anElevator);
 
-
-//Time thing
-void set_time(Elevator *anElevator);
-int get_time_difference(Elevator *anElevator);
 

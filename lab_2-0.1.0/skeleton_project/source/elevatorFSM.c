@@ -26,8 +26,23 @@ void elevatorFSM(Elevator *anElevator){
     }
 };
 
-//updates the destination floor of anElevator to the given int value(must be between 0 and 3)
-void update_destination(Elevator *anElevator,int destination_floor)
+
+
+
+
+
+void set_current_state(Elevator *anElevator, Elevator_state_t a_current_state)
+{
+    anElevator->current_state = a_current_state;
+}
+
+Elevator_state_t get_current_state(Elevator *anElevator)
+{
+    return anElevator->current_state;
+}
+
+
+void set_destination_floor(Elevator *anElevator,int destination_floor)
 {
     if(destination_floor<0 || destination_floor > (N_FLOORS-1))
     {
@@ -39,43 +54,81 @@ void update_destination(Elevator *anElevator,int destination_floor)
     return;
 };
 
+
+int get_destination_floor(Elevator *anElevator)
+{
+    return anElevator->current_floor;
+}
+
+void set_current_floor(Elevator *anElevator, int a_current_floor)
+{
+    anElevator->current_floor = a_current_floor;
+}
+
+int get_current_floor(Elevator *anElevator)
+{
+    return anElevator->current_floor;
+}
+
+void set_has_destination(Elevator *anElevator, bool has_a_destination)
+{
+    anElevator->has_destination = has_a_destination;
+}
+
+bool get_has_destination(Elevator *anElevator)
+{
+    return anElevator->has_destination;
+}
+
+void set_start_time(Elevator *anElevator)
+{
+    anElevator->start_time = time(NULL);
+}
+
+int get_time_difference(Elevator *anElevator)
+{
+    return (int)time(NULL) - anElevator->start_time;
+}
+
+
+
 //define the triggers from IDLE-state
 void handle_IDLE(Elevator *anElevator)
 {
-    if(!anElevator->has_destination)
+    if(!get_has_destination(anElevator))
     {
         return;
     }
-    else if(anElevator->has_destination)
+    else if(get_has_destination(anElevator))
     {
-        if(anElevator->current_floor < anElevator->destination_floor)
+        if(get_current_floor(anElevator) < get_destination_floor(anElevator))
         {
             MotorDirection(DIRN_UP);
         }
-        else if(anElevator->current_floor > anElevator->destination_floor)
+        else if(get_current_floor(anElevator) > get_destination_floor(anElevator))
         {
             MotorDirection(DIRN_DOWN);
         }
-        anElevator->current_state = MOVING;
+        set_current_state(anElevator, MOVING);
         return;
     }
     else if(elevio_stopButton())
     {
         elevio_doorOpenLamp(1);
-        set_time(anElevator);
-        anElevator->current_state = AT_DESTINATION;
+        set_start_time(anElevator);
+        set_current_state(anElevator, AT_DESTINATION);
     }
 };
 
 //define the triggers from Moving-state
 void handle_MOVING(Elevator *anElevator)
 {
-    if(anElevator->current_floor==anElevator->destination_floor)
+    if(get_current_floor(anElevator)==get_destination_floor(anElevator))
     {
         MotorDirection(DIRN_STOP);
         elevio_doorOpenLamp(1);
-        set_time(anElevator);
-        anElevator->current_state = AT_DESTINATION;
+        set_start_time(anElevator);
+        set_current_state(anElevator, AT_DESTINATION);
         return;
     }
 };
@@ -85,13 +138,13 @@ void handle_AT_DESTINATION(Elevator *anElevator)
 {
     if(elevio_obstruction())
     {
-        set_time(anElevator);
+        set_start_time(anElevator);
         return;
     }
     else if(get_time_difference(anElevator)>= 3)
     {
         elevio_doorOpenLamp(0);
-        anElevator->current_state = IDLE;
+        set_current_state(anElevator, IDLE);
         return;
     }
 };
@@ -103,12 +156,3 @@ void handle_EMERGENCY(Elevator *anElevator)
 };
 
 
-void set_time(Elevator *anElevator)
-{
-    anElevator->start_time = time(NULL);
-}
-
-int get_time_difference(Elevator *anElevator)
-{
-    return (int)time(NULL) - anElevator->start_time;
-}
