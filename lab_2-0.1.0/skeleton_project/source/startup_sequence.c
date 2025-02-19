@@ -3,7 +3,7 @@
 
 void startup_sequence(Elevator *anElevator)
 {
-    while(elevio_floorSensor == -1)
+    while(elevio_floorSensor() == -1)
     {
         elevio_motorDirection(DIRN_UP);
     }

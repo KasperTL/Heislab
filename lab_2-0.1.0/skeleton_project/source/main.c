@@ -17,12 +17,17 @@ int main(){
     
     printf("=== Example Program ===\n");
     printf("Press the stop button on the elevator panel to exit\n");
+    Elevator T;
+    
+    startup_sequence(&T);
 
-    elevio_motorDirection(DIRN_UP);
+    set_destination_floor(&T,3);
+    set_has_destination(&T,true);
+    printf("Curremt state: %d\n, current floor: %d\n, destination floor: %d\n", get_current_state(&T),get_current_floor(&T),get_destination_floor(&T));
 
     while(1){
         
-        
+        elevatorFSM(&T);
         nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
     }
 

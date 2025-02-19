@@ -8,12 +8,15 @@
 
 //Switch case between states, will run in the main while loop of the program
 void elevatorFSM(Elevator *anElevator){
-    switch (anElevator->current_state)
+//printf("%d\n", get_current_state(anElevator));
+    switch (get_current_state(anElevator))
     {
     case IDLE:
+        printf("TETET");
         handle_IDLE(anElevator);
         break;
     case MOVING:
+        //printf("I MOVING");
         handle_MOVING(anElevator);
         break;
     case AT_DESTINATION:
@@ -57,7 +60,7 @@ void set_destination_floor(Elevator *anElevator,int destination_floor)
 
 int get_destination_floor(Elevator *anElevator)
 {
-    return anElevator->current_floor;
+    return anElevator->destination_floor;
 }
 
 void set_current_floor(Elevator *anElevator, int a_current_floor)
@@ -95,21 +98,26 @@ int get_time_difference(Elevator *anElevator)
 //define the triggers from IDLE-state
 void handle_IDLE(Elevator *anElevator)
 {
+    printf("FORS");
     if(!get_has_destination(anElevator))
     {
         return;
     }
     else if(get_has_destination(anElevator))
     {
+        printf("kkk");
         if(get_current_floor(anElevator) < get_destination_floor(anElevator))
         {
+            printf("hei");
             MotorDirection(DIRN_UP);
+            set_current_state(anElevator, MOVING);
         }
         else if(get_current_floor(anElevator) > get_destination_floor(anElevator))
         {
             MotorDirection(DIRN_DOWN);
+            set_current_state(anElevator, MOVING);
         }
-        set_current_state(anElevator, MOVING);
+        
         return;
     }
     else if(elevio_stopButton())
