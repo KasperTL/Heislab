@@ -3,11 +3,16 @@
 #include <signal.h>
 #include <time.h>
 #include "driver/elevio.h"
+#include <unistd.h>
+#include "../inc/elevatorFSM.h"
+//#include "../inc/order.h"
+#include "../inc/utilities.h"
 
 
 
 int main(){
     elevio_init();
+    
     
     printf("=== Example Program ===\n");
     printf("Press the stop button on the elevator panel to exit\n");
@@ -15,8 +20,32 @@ int main(){
     elevio_motorDirection(DIRN_UP);
 
     while(1){
-        int floor = elevio_floorSensor();
+        
+        
+        nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
+    }
 
+    return 0;
+}
+
+
+
+
+
+
+/*int floor = elevio_floorSensor();
+        if(elevio_floorSensor()==1)
+        {
+            elevio_motorDirection(DIRN_STOP);
+            elevio_doorOpenLamp(1);
+            Elevator test;
+            set_time(&test);
+            sleep(3);
+            int a = get_time_difference(&test);
+            printf("%d\n", a);
+            elevio_doorOpenLamp(0);
+            elevio_motorDirection(DIRN_UP);
+        }
         if(floor == 0){
             elevio_motorDirection(DIRN_UP);
         }
@@ -42,10 +71,4 @@ int main(){
         if(elevio_stopButton()){
             elevio_motorDirection(DIRN_STOP);
             break;
-        }
-        
-        nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
-    }
-
-    return 0;
-}
+        }*/
