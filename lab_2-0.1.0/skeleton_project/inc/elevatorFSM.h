@@ -1,3 +1,4 @@
+#pragma once
 #include "../source/driver/elevio.h"
 #include "order.h"
 #include <stdbool.h>
