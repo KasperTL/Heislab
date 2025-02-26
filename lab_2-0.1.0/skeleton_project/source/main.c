@@ -18,7 +18,6 @@ int main(){
     printf("=== Example Program ===\n");
     printf("Press the stop button on the elevator panel to exit\n");
     Elevator T;
-    
     startup_sequence(&T);
 
     set_destination_floor(&T,3);
@@ -26,7 +25,10 @@ int main(){
     printf("Curremt state: %d\n, current floor: %d\n, destination floor: %d\n", get_current_state(&T),get_current_floor(&T),get_destination_floor(&T));
 
     while(1){
-        
+        if(&T.current_floor != -1)
+        {
+        printf("Current floor: %d\n",get_current_floor(&T));
+        }
         elevatorFSM(&T);
         nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
     }

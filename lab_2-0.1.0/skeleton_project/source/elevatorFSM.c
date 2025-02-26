@@ -9,14 +9,23 @@
 //Switch case between states, will run in the main while loop of the program
 void elevatorFSM(Elevator *anElevator){
 //printf("%d\n", get_current_state(anElevator));
+    if(anElevator->current_floor != -1)
+    {
+        //Turn off the previous floor indicator 
+        elevio_floorIndicator(get_current_floor(anElevator));
+
+        //update the current floor
+        set_current_floor(anElevator, elevio_floorSensor());
+
+        //Turn on the floor indicator
+        elevio_floorIndicator(get_current_floor(anElevator));
+    }
     switch (get_current_state(anElevator))
     {
     case IDLE:
-        printf("TETET");
         handle_IDLE(anElevator);
         break;
     case MOVING:
-        //printf("I MOVING");
         handle_MOVING(anElevator);
         break;
     case AT_DESTINATION:
@@ -24,6 +33,7 @@ void elevatorFSM(Elevator *anElevator){
         break;
     case EMERGENCY: 
         handle_EMERGENCY(anElevator);
+        break;
     default:
         break;
     }
@@ -98,30 +108,34 @@ int get_time_difference(Elevator *anElevator)
 //define the triggers from IDLE-state
 void handle_IDLE(Elevator *anElevator)
 {
-    printf("FORS");
     if(!get_has_destination(anElevator))
     {
         return;
     }
     else if(get_has_destination(anElevator))
-    {
-        printf("kkk");
-        if(get_current_floor(anElevator) < get_destination_floor(anElevator))
+    {   
+        if(get_current_floor(anElevator) == get_destination_floor(anElevator)){
+            printf("Hopp dra IDLE til DEST\n");
+            set_start_time(anElevator);
+            set_current_state(anElevator,AT_DESTINATION);
+        }
+        else if(get_current_floor(anElevator) < get_destination_floor(anElevator))
         {
-            printf("hei");
-            MotorDirection(DIRN_UP);
+            printf("Hopp dra IDLE til MOVE up\n");
+            elevio_motorDirection(DIRN_UP);
             set_current_state(anElevator, MOVING);
         }
         else if(get_current_floor(anElevator) > get_destination_floor(anElevator))
         {
-            MotorDirection(DIRN_DOWN);
+            printf("Hopp dra IDLE til MOVE down\n");
+            elevio_motorDirection(DIRN_DOWN);
             set_current_state(anElevator, MOVING);
         }
-        
         return;
-    }
+    }   
     else if(elevio_stopButton())
     {
+        printf("Hopp dra IDLE til DEST\n");
         elevio_doorOpenLamp(1);
         set_start_time(anElevator);
         set_current_state(anElevator, AT_DESTINATION);
@@ -133,12 +147,14 @@ void handle_MOVING(Elevator *anElevator)
 {
     if(get_current_floor(anElevator)==get_destination_floor(anElevator))
     {
-        MotorDirection(DIRN_STOP);
+        elevio_motorDirection(DIRN_STOP);
         elevio_doorOpenLamp(1);
         set_start_time(anElevator);
+        printf("Hopp fra MOVE til DEST\n");
         set_current_state(anElevator, AT_DESTINATION);
         return;
     }
+    return;
 };
 
 //define the triggers from Handle_AT_DESTINATION-state
@@ -152,6 +168,7 @@ void handle_AT_DESTINATION(Elevator *anElevator)
     else if(get_time_difference(anElevator)>= 3)
     {
         elevio_doorOpenLamp(0);
+        printf("Hopp fra at DEST til IDLE\n");
         set_current_state(anElevator, IDLE);
         return;
     }

@@ -8,6 +8,7 @@ void startup_sequence(Elevator *anElevator)
         elevio_motorDirection(DIRN_UP);
     }
     elevio_motorDirection(DIRN_STOP);
+    printf("Startup til IDLE\n");
     set_current_state(anElevator, IDLE);
     set_current_floor(anElevator, elevio_floorSensor());
     set_has_destination(anElevator, false);

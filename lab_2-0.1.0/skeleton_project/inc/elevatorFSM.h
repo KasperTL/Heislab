@@ -2,6 +2,7 @@
 #include "../source/driver/elevio.h"
 #include "order.h"
 #include <stdbool.h>
+#include <stdio.h>
 
 /**
  * @file elevatorFSM.h 
