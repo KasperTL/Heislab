@@ -9,16 +9,16 @@
 //Switch case between states, will run in the main while loop of the program
 void elevatorFSM(Elevator *anElevator){
 //printf("%d\n", get_current_state(anElevator));
-    if(anElevator->current_floor != -1)
+    if(elevio_floorSensor() != -1)
     {
         //Turn off the previous floor indicator 
-        elevio_floorIndicator(get_current_floor(anElevator));
+        //elevio_floorIndicator(get_current_floor(anElevator));
 
         //update the current floor
         set_current_floor(anElevator, elevio_floorSensor());
 
         //Turn on the floor indicator
-        elevio_floorIndicator(get_current_floor(anElevator));
+        //elevio_floorIndicator(get_current_floor(anElevator));
     }
     switch (get_current_state(anElevator))
     {

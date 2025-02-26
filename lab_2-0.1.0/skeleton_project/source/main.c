@@ -25,7 +25,7 @@ int main(){
     printf("Curremt state: %d\n, current floor: %d\n, destination floor: %d\n", get_current_state(&T),get_current_floor(&T),get_destination_floor(&T));
 
     while(1){
-        if(&T.current_floor != -1)
+        if(elevio_floorSensor() != -1)
         {
         printf("Current floor: %d\n",get_current_floor(&T));
         }
