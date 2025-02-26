@@ -106,19 +106,7 @@ void handle_IDLE(Elevator *anElevator)
         if(get_current_floor(anElevator) == get_destination_floor(anElevator)){
             printf("Hopp dra IDLE til DEST\n");
             set_start_time(anElevator);
-            set_current_state(anElevator,AT_DESTINATION);
-        }
-        else if(get_current_floor(anElevator) < get_destination_floor(anElevator))
-        {
-            printf("Hopp dra IDLE til MOVE up\n");
-            elevio_motorDirection(DIRN_UP);
-            set_current_state(anElevator, MOVING);
-        }
-        else if(get_current_floor(anElevator) > get_destination_floor(anElevator))
-        {
-            printf("Hopp dra IDLE til MOVE down\n");
-            elevio_motorDirection(DIRN_DOWN);
-            set_current_state(anElevator, MOVING);
+      vectorrent_state(anElevator, MOVING);
         }
         return;
     }   
@@ -161,6 +149,7 @@ void handle_MOVING(Elevator *anElevator)
 //define the triggers from Handle_AT_DESTINATION-state
 void handle_AT_DESTINATION(Elevator *anElevator)
 {
+    
     if(elevio_obstruction())
     {
         set_start_time(anElevator);
