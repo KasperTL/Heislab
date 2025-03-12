@@ -15,9 +15,7 @@ void set_destination_floor(Elevator *anElevator,int destination_floor)
 {
     if(destination_floor < 0 || destination_floor > N_FLOORS)
     {
-        //later implent interupt
-        //prints "Floor out of bound"
-        printf("Floor out of bound\n");
+        return;
     }
     anElevator->destination_floor = destination_floor;
     return;

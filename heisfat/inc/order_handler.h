@@ -37,6 +37,3 @@ int get_highest_bit(uint8_t value);
 
 // Function to print uint8_t bitwise
 void print_bitwise(uint8_t value);
-
-// Function to print the ElevatorOrders struct bitwise
-void print_elevator_orders_bitwise(ElevatorOrders *orders);

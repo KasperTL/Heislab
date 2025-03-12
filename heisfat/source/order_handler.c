@@ -20,7 +20,6 @@ void update_new_order(ElevatorOrders *orders, int floor, Order_type_t order_type
     else if (order_type == ORDER_CAB) {
         orders->inside_orders |= (1 << floor) & UINT4_MASK;
     }
-    print_elevator_orders_bitwise(orders);
 }
 
 void mark_order_served(ElevatorOrders *orders, int floor) {
@@ -91,22 +90,7 @@ int get_highest_bit(uint8_t value) {
 
 void print_bitwise(uint8_t value) {
     for (int i = 7; i >= 0; i--) {
-        printf("%d", (value >> i) & 1);  // Print each bit, starting from the most significant bit
     }
-    printf("\n");
 }
 
-void print_elevator_orders_bitwise(ElevatorOrders *orders) {
-    printf("Unserved orders bitmask: ");
-    print_bitwise(orders->unserved_orders);
-
-    printf("Up orders bitmask:       ");
-    print_bitwise(orders->up_orders);
-
-    printf("Down orders bitmask:     ");
-    print_bitwise(orders->down_orders);
-
-    printf("Inside orders bitmask:   ");
-    print_bitwise(orders->inside_orders);
-}
 

@@ -41,14 +41,12 @@ void handle_IDLE(Elevator *anElevator)
     else if(get_has_destination(anElevator))
     {   
         if(get_current_floor(anElevator) == get_destination_floor(anElevator)){
-            printf("Hopp dra IDLE til DEST\n");
             elevio_doorOpenLamp(1);
             set_start_time(anElevator);
             set_current_state(anElevator,AT_DESTINATION);
         }
         else if(get_current_floor(anElevator) < get_destination_floor(anElevator))
         {
-            printf("Hopp dra IDLE til MOVE up\n");
             elevio_motorDirection(DIRN_UP);
             set_moving_up(anElevator,true);
             
@@ -56,7 +54,6 @@ void handle_IDLE(Elevator *anElevator)
         }
         else if(get_current_floor(anElevator) > get_destination_floor(anElevator))
         {
-            printf("Hopp dra IDLE til MOVE down\n");
             elevio_motorDirection(DIRN_DOWN);
             set_moving_up(anElevator,false);
             set_current_state(anElevator, MOVING);  
@@ -65,7 +62,6 @@ void handle_IDLE(Elevator *anElevator)
     }   
     else if(elevio_stopButton())
     {
-        printf("Hopp dra IDLE til DEST\n");
         elevio_doorOpenLamp(1);
         set_start_time(anElevator);
         set_current_state(anElevator, AT_DESTINATION);
@@ -88,7 +84,6 @@ void handle_MOVING(Elevator *anElevator)
             elevio_motorDirection(DIRN_STOP);
             elevio_doorOpenLamp(1);
             set_start_time(anElevator);
-            printf("Hopp fra MOVE til DEST\n");
             set_current_state(anElevator, AT_DESTINATION);
             return;
         }
@@ -128,7 +123,6 @@ void handle_AT_DESTINATION(Elevator *anElevator, ElevatorOrders *orders)
         set_destination_floor(anElevator,get_highest_bit(new_destination_floor_bit_map));
         }
         elevio_doorOpenLamp(0);
-        printf("Hopp fra at DEST til IDLE\n");
         set_current_state(anElevator, IDLE);
         return;
     }
@@ -169,7 +163,6 @@ void handle_EMERGENCY(Elevator *anElevator, ElevatorOrders *orders)
             {
                 if(get_moving_up(anElevator))
                 {
-                    printf("Hopp fra EMER til MOVE down\n");
                     elevio_motorDirection(DIRN_DOWN);
                     set_moving_up(anElevator,false);
                     set_current_state(anElevator, MOVING);
@@ -177,7 +170,6 @@ void handle_EMERGENCY(Elevator *anElevator, ElevatorOrders *orders)
                 }
                 else if(!get_moving_up(anElevator))
                 {
-                    printf("Hopp fra EMER til MOVE up\n");
                     elevio_motorDirection(DIRN_UP);
                     set_moving_up(anElevator,true);
                     set_current_state(anElevator, MOVING);
@@ -186,7 +178,6 @@ void handle_EMERGENCY(Elevator *anElevator, ElevatorOrders *orders)
             }
             else if(get_current_floor(anElevator) < get_destination_floor(anElevator))
             {
-                printf("Hopp fra EMER til MOVE up\n");
                 elevio_motorDirection(DIRN_UP);
                 set_moving_up(anElevator,true);
                 set_current_state(anElevator, MOVING);
@@ -194,7 +185,6 @@ void handle_EMERGENCY(Elevator *anElevator, ElevatorOrders *orders)
             }
             else if(get_current_floor(anElevator) > get_destination_floor(anElevator))
             {
-                printf("Hopp fra EMER til MOVE down\n");
                 elevio_motorDirection(DIRN_DOWN);
                 set_moving_up(anElevator,false);
                 set_current_state(anElevator, MOVING); 
