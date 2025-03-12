@@ -1,3 +1,4 @@
 # Heislab
 Heislab1 TTK4235
-kasper
+kasper Tufte Langland
+Johannes Embretsen Gunnarshaug
